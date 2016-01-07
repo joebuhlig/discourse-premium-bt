@@ -1,0 +1,127 @@
+<div class="control-group" id="premium" style="margin-top:30px;">
+	<label class="control-label">{{i18n 'premium_bt.title'}}</label>
+	<div class="controls">
+		<a id="premium_subscribe_link" href="#">{{i18n 'premium_bt.subscribe_link'}}</a>
+	</div>
+	<div class="controls" style="margin-top:10px;">
+		<a id="premium_change_payment_link" href="#">{{i18n 'premium_bt.change_payment_link'}}</a>
+	</div>
+	<div class="controls" style="margin-top:10px;">
+		<a id="premium_unsubscribe_link" href="#">{{i18n 'premium_bt.unsubscribe_link'}}</a>
+	</div>
+</div>
+
+<div class="premium-form popup-menu" id="premium_subscribe_form">
+	<form action="/working-with-omnifocus/buy" id="subscribe" method="post">
+		<div class="price"></div>
+		<div id="paypal"></div>
+
+		<label for="email" id="checkout-email-label">Email</label>
+		<input type="email" name="email" id="checkout-email" class="ember-view ember-text-field input-xxlarge">
+
+		<label for="card-number" id="card-number-label">Card Number</label>
+		<div id="card-number" class="ember-view ember-text-field input-xxlarge"></div>
+
+
+		<label for="expiration-date" id="expiration-date-label">Expiration Date (MM/YY)</label>
+		<div id="expiration-date" class="ember-view ember-text-field input-xxlarge"></div>
+
+		<label for="discount" id="checkout-discount-label">Discount <span id="discount-result"></span></label>
+		<input type="discount" name="discount" id="checkout-discount" class="ember-view ember-text-field input-xxlarge">
+
+		<input type="hidden" name="product_name" id="hidden-product-name" value="Working-with-OmniFocus">
+		<input type="hidden" name="buhlig_aff" id="hidden-buhlig-aff" value="">
+		<input name="authenticity_token" type="hidden" value="{{ csrfToken }}"/>
+		<input type="submit" class="submit-payment-button omnifocus-button" value="Buy Working with OmniFocus" />
+	</form>
+</div>
+
+<div class="premium-form popup-menu" id="premium_change_payment_form">
+premium_change_payment_form
+</div>
+
+<div class="premium-form popup-menu" id="premium_unsubscribe_form">
+premium_unsubscribe_form
+</div>
+
+<script>
+	$("#premium_subscribe_link").click(function(e){
+		e.preventDefault();
+		$("#premium_subscribe_form").show();
+	});
+	$("#premium_change_payment_link").click(function(e){
+		e.preventDefault();
+		$("#premium_change_payment_form").show();
+	});
+	$("#premium_unsubscribe_link").click(function(e){
+		e.preventDefault();
+		$("#premium_unsubscribe_form").show();
+	});
+
+	$(document).mouseup(function(e){
+	    var container = $(".premium-form");
+
+	    if (!container.is(e.target)
+	        && container.has(e.target).length === 0)
+	    {
+	        container.hide();
+	    }
+	});
+
+	$('input[name="authenticity_token"]').val($('meta[name="csrf-token"]').attr('content'));
+
+	$.ajax({
+		url: "/premium/client_token"
+	}).success(function(clientToken){
+		braintree.setup(clientToken, "custom", {
+			id: "subscribe",
+			hostedFields: {
+				styles: {
+					"input": {
+						"font-size": "28px",
+						"color": "#666"
+					}
+				},
+				number: {
+					selector: "#card-number"
+				},
+				expirationDate: {
+					selector: "#expiration-date"
+				}
+			},
+			paypal: {
+				container: "paypal"
+			},
+			dataCollector: {
+				paypal: true
+			}
+		});
+	})
+
+    emailCheck();
+  	function emailCheck(){
+  		var emailInterval = setInterval(function(){
+			if ($('#bt-pp-email').is(':visible')) {
+				$('#checkout-email').val($('#bt-pp-email').html());
+				$('#card-number-label').hide();
+				$('#card-number').hide();
+				$('#expiration-date-label').hide();
+				$('#expiration-date').hide();
+				clearInterval(emailInterval);
+				paypalCheck();
+			}
+		}, 200);
+  	}
+	function paypalCheck(){
+		var paypalInterval = setInterval(function(){
+			if ($('#bt-pp-email').is(':hidden')) {
+				$('#card-number-label').show();
+				$('#card-number').show();
+				$('#expiration-date-label').show();
+				$('#expiration-date').show();
+				clearInterval(paypalInterval);
+				emailCheck();
+			}
+		})
+	}
+</script>

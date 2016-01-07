@@ -1,0 +1,9 @@
+{{#if currentUser}}
+	<li class="premium-link">
+	{{#if currentUser.premium}}
+		<a href="/users/{{currentUser.username}}/preferences#premium">{{i18n 'premium_bt.site_menu_link_subscriber'}}</a>
+	{{else}}
+		<a href="/users/{{currentUser.username}}/preferences#premium">{{i18n 'premium_bt.site_menu_link_nonsubscriber'}}</a>
+	{{/if}}
+	</li>
+{{/if}}

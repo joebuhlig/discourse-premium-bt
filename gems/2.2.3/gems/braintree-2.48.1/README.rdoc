@@ -1,0 +1,94 @@
+= Braintree Ruby Client Library
+
+The Braintree gem provides integration access to the Braintree Gateway.
+
+== Dependencies
+
+* builder
+* libxml-ruby
+
+== Installation
+
+  gem install braintree
+
+Or add to your Gemfile:
+
+  gem 'braintree'
+
+== Quick Start Example
+
+  require "rubygems"
+  require "braintree"
+
+  Braintree::Configuration.environment = :sandbox
+  Braintree::Configuration.merchant_id = "your_merchant_id"
+  Braintree::Configuration.public_key = "your_public_key"
+  Braintree::Configuration.private_key = "your_private_key"
+
+  result = Braintree::Transaction.sale(
+    :amount => "1000.00",
+    :credit_card => {
+      :number => "5105105105105100",
+      :expiration_date => "05/12"
+    }
+  )
+
+  if result.success?
+    puts "success!: #{result.transaction.id}"
+  elsif result.transaction
+    puts "Error processing transaction:"
+    puts "  code: #{result.transaction.processor_response_code}"
+    puts "  text: #{result.transaction.processor_response_text}"
+  else
+    p result.errors
+  end
+
+You retrieve your `merchant_id, `public_key`, and `private_key` when [signing up](https://braintreepayments.com/get-started) for Braintree. Signing up for a sandbox account is easy, free, and instant.
+
+== Bang Methods
+
+Most methods have a bang and a non-bang version (e.g. <tt>Braintree::Customer.create</tt> and <tt>Braintree::Customer.create!</tt>).
+The non-bang version will either return a +SuccessfulResult+ or an +ErrorResult+. The bang version will either return
+the created or updated resource, or it will raise a ValidationsFailed exception.
+
+Example of using non-bang method:
+
+  result = Braintree::Customer.create(:first_name => "Josh")
+  if result.success?
+    puts "Created customer #{result.customer.id}"
+  else
+    puts "Validations failed"
+    result.errors.for(:customer).each do |error|
+      puts error.message
+    end
+  end
+
+Example of using bang method:
+
+  begin
+    customer = Braintree::Customer.create!(:first_name => "Josh")
+    puts "Created customer #{customer.id}"
+  rescue Braintree::ValidationsFailed
+    puts "Validations failed"
+  end
+
+We recommend using the bang methods when you assume that the data is valid and do not expect validations to fail.
+Otherwise, we recommend using the non-bang methods.
+
+== More Information
+
+* Documentation[https://developers.braintreepayments.com/ruby/sdk/server/overview]
+
+== Tests
+
+The unit specs can be run by anyone on any system, but the integration specs are meant to be run against a local development
+server of our gateway code.  These integration specs are not meant for public consumption and will likely fail if run on
+your system.
+
+== Open Source Attribution
+
+A list of open source projects that help power Braintree can be found here[https://www.braintreepayments.com/developers/open-source].
+
+== License
+
+See the LICENSE file.

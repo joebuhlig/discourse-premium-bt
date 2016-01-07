@@ -1,0 +1,25 @@
+#premium_banner{
+	border-radius: 5px;
+}
+.premium-form{
+	display:none;
+	position: fixed;
+    top: 50%;
+    left: 50%;
+    box-shadow: 0 2px 12px rgba(34, 34, 34, 0.6);
+}
+#premium_subscribe_form{
+    width: 500px;
+    margin: -250px 0px 0px -250px;
+    height: 500px;
+}
+#premium_change_payment_form{
+    width: 300px;
+    margin: -150px 0px 0px -150px;
+    height: 300px;
+}
+#premium_unsubscribe_form{
+    width: 100px;
+    margin: -50px 0px 0px -50px;
+    height: 100px;
+}

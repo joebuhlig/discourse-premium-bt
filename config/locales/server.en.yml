@@ -1,0 +1,9 @@
+en:
+  site_settings: 
+    premium_bt_enabled: 'Would you like to get paid for your site?'
+    premium_bt_environment: 'What environment are we working with? :sandbox or :production'
+    premium_bt_merchant_id: 'Your Braintree merchant id'
+    premium_bt_public_key: 'Enter the public key from Braintree'
+    premium_bt_private_key: 'Enter the private key from Braintree'
+    premium_bt_group_name: 'What group should be behind the paywall?'
+    premium_bt_affiliate: 'Turn on the affiliate program?'

@@ -1,0 +1,22 @@
+plugins:
+  premium_bt_enabled:
+    default: false
+    client: true
+  premium_bt_environment:
+    default: ""
+    client: true
+  premium_bt_merchant_id:
+    default: ""
+    client: true
+  premium_bt_public_key:
+    default: ""
+    client: true
+  premium_bt_private_key:
+    default: ""
+    client: true
+  premium_bt_group_name:
+    default: ""
+    client: true
+  premium_bt_affiliate:
+    default: true
+    client: true
