@@ -21,7 +21,8 @@ after_initialize do
 	Braintree::Configuration.public_key = SiteSetting.premium_bt_public_key
 	Braintree::Configuration.private_key = SiteSetting.premium_bt_private_key
 
-	CurrentUserSerializer.class_eval do
+	require_dependency 'current_user_serializer'
+	class ::CurrentUserSerializer
 
 	    attributes :premium
 
@@ -37,6 +38,17 @@ after_initialize do
 			return false
 	    end
 
+	end
+
+	require_dependency "application_controller"
+	class ::ApplicationController
+		before_filter :ref_to_cookie
+
+		def ref_to_cookie
+			if SiteSetting.premium_bt_affiliate and params[:ref] and !User.find_by_id(params[:ref]).nil?
+				cookies[:discourse_prem_aff] = { :value => params[:ref], :expires => 30.days.from_now }
+			end
+		end
 	end
 
 	Discourse::Application.routes.append do

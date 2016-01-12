@@ -17,6 +17,9 @@ plugins:
   premium_bt_group_name:
     default: ""
     client: true
+  premium_bt_plan_id:
+    default: ""
+    client: true
   premium_bt_affiliate:
     default: true
     client: true

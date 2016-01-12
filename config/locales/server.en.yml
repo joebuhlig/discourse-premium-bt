@@ -6,4 +6,26 @@ en:
     premium_bt_public_key: 'Enter the public key from Braintree'
     premium_bt_private_key: 'Enter the private key from Braintree'
     premium_bt_group_name: 'What group should be behind the paywall?'
+    premium_bt_plan_id: 'What is the name of the plan in Braintree?'
     premium_bt_affiliate: 'Turn on the affiliate program?'
+    premium_bt_plan_discount: 'What is the name of the plan discount in Braintree?'
+  premium_bt:
+    pm_subscribe_title: 'Welcome to Premium!'
+    pm_subscribe_text: |
+        ### New Group Access
+
+        Now that you're a subscriber, you have access to the private group **Premium**.
+
+        You can also use **Premium** as your title.
+
+    pm_unsubscribe_title: 'Goodbye'
+    pm_unsubscribe_text: |
+        We're sorry to see you go.
+
+    pm_change_payment_title: 'Payment method updated'
+    pm_change_payment_text: |
+        Your payment method was successfully changed. 
+
+    pm_warning_title: 'Premium Expiration'
+    pm_warning_text: |
+        Don't miss out! This could be great!

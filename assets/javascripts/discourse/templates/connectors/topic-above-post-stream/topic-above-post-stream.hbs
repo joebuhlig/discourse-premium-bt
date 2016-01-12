@@ -1,7 +1,7 @@
 {{#if currentUser}}
 	{{#unless currentUser.premium}}
 		<div class="container alert alert-info" id="premium-banner">
-			<div>{{i18n 'premium_bt.go_premium_bar_text'}} <a href="/users/{{currentUser.username}}/preferences#premium_preferences">{{i18n 'premium_bt.go_premium_bar_link'}}</a></div>
+			<div>{{i18n 'premium_bt.go_premium_bar_text'}} <a href="/users/{{currentUser.username}}/preferences#premium">{{i18n 'premium_bt.go_premium_bar_link'}}</a></div>
 		</div>
 	{{/unless}}
 {{/if}}
