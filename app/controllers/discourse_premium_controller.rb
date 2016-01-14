@@ -22,30 +22,14 @@ module DiscoursePremiumBt
 			if subscription.success?
 				current_user.custom_fields["subscription_id"] = subscription.subscription.id
 				group = Group.find_by_name(SiteSetting.premium_bt_group_name)
-				if !group.users.include?(current_user)
-					group.add(current_user)
-				else
-					return render_json_error I18n.t('groups.errors.member_already_exist', username: current_user.username)
-				end
-
-				if group.save
-					title = I18n.t("premium_bt.pm_subscribe_title")
-					raw = I18n.t("premium_bt.pm_subscribe_text")
-					current_user.custom_fields["premium_exp_date"] = nil
-					current_user.custom_fields["premium_message_sent"] = nil
-					current_user.save
-					PostCreator.create(
-						Discourse.system_user,
-						target_usernames: current_user.username,
-						archetype: Archetype.private_message,
-						subtype: TopicSubtype.system_message,
-						title: title,
-						raw: raw
-		            )
-					render json: success_json
-				else
-					return render_json_error(group)
-				end
+				current_user.premium_group_grant
+				title = I18n.t("premium_bt.pm_subscribe_title")
+				raw = I18n.t("premium_bt.pm_subscribe_text")
+				current_user.custom_fields["premium_exp_date"] = nil
+				current_user.custom_fields["premium_exp_pm_sent"] = nil
+				current_user.save
+				current_user.send_premium_pm(title, raw)
+				render json: success_json
 			else
 				return render_json_error(subscription.message)
 			end
@@ -62,14 +46,7 @@ module DiscoursePremiumBt
 			if subscription.success?
 				title = I18n.t("premium_bt.pm_change_payment_title")
 				raw = I18n.t("premium_bt.pm_change_payment_text")
-				PostCreator.create(
-					Discourse.system_user,
-					target_usernames: current_user.username,
-					archetype: Archetype.private_message,
-					subtype: TopicSubtype.system_message,
-					title: title,
-					raw: raw
-	            )
+				current_user.send_premium_pm(title, raw)
 	            render json: success_json
 			else
 				return render_json_error(subscription.message)
@@ -81,25 +58,11 @@ module DiscoursePremiumBt
 
 			if subscription.success?
 				current_user.custom_fields["subscription_id"] = nil
-				group = Group.find_by_name(SiteSetting.premium_bt_group_name)
-				current_user.primary_group_id = nil if current_user.primary_group_id == group.id
-				group.users.delete(current_user.id)
-
-				if group.save && current_user.save
-					title = I18n.t("premium_bt.pm_unsubscribe_title")
-					raw = I18n.t("premium_bt.pm_unsubscribe_text")
-					PostCreator.create(
-						Discourse.system_user,
-						target_usernames: current_user.username,
-						archetype: Archetype.private_message,
-						subtype: TopicSubtype.system_message,
-						title: title,
-						raw: raw
-		            )
-					render json: success_json
-				else
-					return render_json_error(group)
-				end
+				current_user.premium_group_revoke
+				title = I18n.t("premium_bt.pm_unsubscribe_title")
+				raw = I18n.t("premium_bt.pm_unsubscribe_text")
+				current_user.send_premium_pm(title, raw)
+				render json: success_json
 			else
 				return render_json_error(subscription.message)
 			end

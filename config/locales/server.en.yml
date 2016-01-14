@@ -26,6 +26,12 @@ en:
     pm_change_payment_text: |
         Your payment method was successfully changed. 
 
-    pm_warning_title: 'Premium Expiration'
+    pm_warning_title: 'Premium Expiration Warning'
     pm_warning_text: |
         Don't miss out! This could be great!
+    pm_free_month_title: 'Free Month of Premium!'
+    pm_free_month_text: |
+        Someone just signed up using your affiliate link! To say thank you, we're granting you a free month of premium. Enjoy!
+    pm_expired_title: 'Premium Expiration'
+    pm_expired_text: |
+        Looks like your free month of premium has expired.

@@ -1,6 +1,6 @@
 <div class="control-group" id="premium" style="margin-top:30px;">
     <label class="control-label">{{i18n 'premium_bt.title'}}</label>
-    {{#if currentUser.premium}}
+    {{#if currentUser.subscriber}}
     <div class="controls">
         <a id="premium_change_payment_link" href="#">{{i18n 'premium_bt.change_payment_link'}}</a>
     </div>
@@ -78,7 +78,8 @@ $(".status-alert .close").click(function(e){
 })
 
 function formSubmit(){
-
+    $('#status_alert_text').text("{{i18n 'premium_bt.processing_text'}}");
+    $('.status-alert').show();
 }
 
 $(document).mouseup(function(e){
@@ -126,6 +127,8 @@ function getClientToken(){
                 paypal: true
             },
             onPaymentMethodReceived: function (payload) {
+                $('#status_alert_text').text("{{i18n 'premium_bt.processing_text'}}");
+                $('.status-alert').show();
                 $('input[name="payment_method_nonce"]').val(payload.nonce);
                 if ($('input[name="subscribe_or_update"]').val() == "subscribe"){
                     url = "/premium/subscribe";

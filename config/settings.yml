@@ -21,5 +21,8 @@ plugins:
     default: ""
     client: true
   premium_bt_affiliate:
-    default: true
+    default: false
+    client: true
+  premium_bt_plan_discount:
+    default: ""
     client: true
