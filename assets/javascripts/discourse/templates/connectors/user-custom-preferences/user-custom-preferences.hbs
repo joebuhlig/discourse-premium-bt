@@ -1,14 +1,17 @@
 <div class="control-group" id="premium" style="margin-top:30px;">
     <label class="control-label">{{i18n 'premium_bt.title'}}</label>
+    {{#if currentUser.premium}}
     <div class="controls">
-        <a id="premium_subscribe_link" href="#">{{i18n 'premium_bt.subscribe_link'}}</a>
-    </div>
-    <div class="controls" style="margin-top:10px;">
         <a id="premium_change_payment_link" href="#">{{i18n 'premium_bt.change_payment_link'}}</a>
     </div>
     <div class="controls" style="margin-top:10px;">
         <a id="premium_unsubscribe_link" href="#">{{i18n 'premium_bt.unsubscribe_link'}}</a>
     </div>
+    {{else}}
+    <div class="controls">
+        <a id="premium_subscribe_link" href="#">{{i18n 'premium_bt.subscribe_link'}}</a>
+    </div>
+    {{/if}}
 </div>
 
 <div class="premium-form popup-menu" id="premium_subscribe_form">
@@ -30,40 +33,56 @@
 
         <input name="authenticity_token" type="hidden" value="{{ csrfToken }}"/>
         <input name="payment_method_nonce" type="hidden" value=""/>
+        <input name="subscribe_or_update" type="hidden" value="subscribe"/>
         <div class="submit-wrapper">
-            <input type="submit" class="submit-payment-button btn btn-primary save-user no-text" value="{{i18n 'premium_bt.subscribe_button'}}" />
+            <input type="submit" id="subscribe_submit" class="submit-payment-button btn btn-primary save-user no-text" value="{{i18n 'premium_bt.subscribe_button'}}" />
         </div>
     </form>
 </div>
 
-<div class="premium-form popup-menu" id="premium_change_payment_form">
-premium_change_payment_form
+<div class="premium-form popup-menu" id="premium_unsubscribe_form">
+    <form action="javascript:unsubscribe();" id="unsubscribe" method="post">
+        <div class="submit-wrapper">
+            <input type="submit" class="submit-payment-button btn btn-primary save-user no-text" value="{{i18n 'premium_bt.unsubscribe_button'}}" />
+        </div>
+    </form>
+
 </div>
 
-<div class="premium-form popup-menu" id="premium_unsubscribe_form">
-premium_unsubscribe_form
-</div>
+<div class="status-alert"><a href="" class="close"><i class="fa fa-times-circle"></i></a><span id="status_alert_text">Please wait while we process this.</span></div>
 
 <script>
 $("#premium_subscribe_link").click(function(e){
     e.preventDefault();
+    $("#subscribe_submit").val("{{i18n 'premium_bt.subscribe_button'}}");
     $("#premium_subscribe_form").show();
+    $('input[name="subscribe_or_update"]').val("subscribe");
 });
 $("#premium_change_payment_link").click(function(e){
     e.preventDefault();
-    $("#premium_change_payment_form").show();
+    $("#subscribe_submit").val("{{i18n 'premium_bt.change_payment_button'}}");
+    $("#premium_subscribe_form").show();
+    $('input[name="subscribe_or_update"]').val("update");
 });
 $("#premium_unsubscribe_link").click(function(e){
     e.preventDefault();
     $("#premium_unsubscribe_form").show();
 });
+$('.btn-primary').click(function(e){
+    $('#status_alert_text').text("{{i18n 'premium_bt.processing_text'}}");
+    $('.status-alert').show();
+})
+$(".status-alert .close").click(function(e){
+    e.preventDefault();
+    $('.status-alert').hide();
+})
 
 function formSubmit(){
 
 }
 
 $(document).mouseup(function(e){
-    var container = $(".premium-form");
+    var container = $(".premium-form, .status-alert");
 
     if (!container.is(e.target)
         && container.has(e.target).length === 0)
@@ -108,18 +127,26 @@ function getClientToken(){
             },
             onPaymentMethodReceived: function (payload) {
                 $('input[name="payment_method_nonce"]').val(payload.nonce);
-                console.log($(".premium-form #subscribe").serialize());
+                if ($('input[name="subscribe_or_update"]').val() == "subscribe"){
+                    url = "/premium/subscribe";
+                }
+                else {
+                    url = "/premium/change_payment";
+                };
+                
                 $.ajax({
                     type: "POST",
-                    url: "/premium/subscribe",
-                    data: {
-                        payment_method_nonce: $('input[name="payment_method_nonce"]').val(),
-                        authenticity_token: $('input[name="authenticity_token"]').val(),
-                        cardholder_name: $('input[name="cardholder-name"]').val()
+                    url: url,
+                    data: $(".premium-form #subscribe").serialize()
+                }).success(function(response){
+                    if (response.success == "OK"){
+                        location.reload();
                     }
-                }).success(function(result){
-                    $("#premium_subscribe_form").text(result);
                 });
+            },
+            onError: function (payload) {
+                $('#status_alert_text').text(payload.message);
+                $('.status-alert').show();
             }
         });
     });
@@ -131,8 +158,26 @@ function getClientToken(){
 
 getClientToken();
 
-emailCheck();
+function unsubscribe(){
+    $('#status_alert_text').text("{{i18n 'premium_bt.processing_text'}}");
+    $('.status-alert').show();
+    var request = $.ajax({
+        type: "POST",
+        url: "/premium/cancel"
+    });
 
+    request.success(function(response){
+        if (response.success == "OK"){
+            location.reload();
+        }
+    });
+
+    request.fail(function(response) {
+        console.log(response);
+    });
+}
+
+emailCheck();
 function emailCheck(){
     var emailInterval = setInterval(function(){
         if ($('#bt-pp-email').is(':visible')) {
@@ -146,7 +191,6 @@ function emailCheck(){
         }
     }, 200);
 }
-
 function paypalCheck(){
     var paypalInterval = setInterval(function(){
         if ($('#bt-pp-email').is(':hidden')) {

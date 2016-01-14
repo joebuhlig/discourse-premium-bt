@@ -15,3 +15,6 @@ en:
       go_premium_bar_text: "Want in on the private categories?"
       go_premium_bar_link: "Go Premium"
       subscribe_button: "Subscribe"
+      unsubscribe_button: "Unsubscribe"
+      change_payment_button: "Update Payment Method"
+      processing_text: "Please wait while we process this."

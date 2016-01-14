@@ -27,10 +27,9 @@ after_initialize do
 	    attributes :premium
 
 	    def premium
-	    	groups = []
-			user_groups = GroupUser.where(user_id: object.id)
-			user_groups.each_with_index do |user_group, i|
-				group = Group.where(id: user_group.group_id).first
+	    	groups = object.groups
+			groups.each do |group|
+				group = Group.where(id: group.id).first
 				if group.name == SiteSetting.premium_bt_group_name
 					return true
 				end
@@ -48,6 +47,21 @@ after_initialize do
 			if SiteSetting.premium_bt_affiliate and params[:ref] and !User.find_by_id(params[:ref]).nil?
 				cookies[:discourse_prem_aff] = { :value => params[:ref], :expires => 30.days.from_now }
 			end
+		end
+	end
+
+	require_dependency 'user'
+	class ::User
+		after_create :check_for_refferal
+
+		def check_for_refferal
+			if SiteSetting.premium_bt_affiliate and cookies[:discourse_prem_aff] and !User.find_by_id(cookies[:discourse_prem_aff]).nil?
+				grant_free_month(cookies[:discourse_prem_aff])
+			end
+		end
+
+		def grant_free_month(id)
+
 		end
 	end
 
