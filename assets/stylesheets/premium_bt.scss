@@ -8,10 +8,15 @@
     left: 50%;
     box-shadow: 0 2px 12px rgba(34, 34, 34, 0.6);
 }
+.form-text{
+    margin: 15px 0px;
+    text-align: center;
+    font-size: 1.2em;
+}
 #premium_subscribe_form{
     width: 350px;
-    margin: -183px 0px 0px -175px;
-    height: 365px;
+    margin: -220px 0px 0px -175px;
+    height: 420px;
 }
 #premium_change_payment_form{
     width: 300px;
@@ -19,9 +24,9 @@
     height: 300px;
 }
 #premium_unsubscribe_form{
-    width: 100px;
-    margin: -50px 0px 0px -50px;
-    height: 100px;
+    width: 300px;
+    margin: -60px 0px 0px -150px;
+    height: 120px;
 }
 .premium-input{
     background-color: white;
@@ -59,4 +64,7 @@
         color: #6f6f6f;
         margin-left: 10px;
     }
+}
+.paypal-payment{
+    height: 180px !important;
 }

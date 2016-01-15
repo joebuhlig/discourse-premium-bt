@@ -2,48 +2,49 @@
     <label class="control-label">{{i18n 'premium_bt.title'}}</label>
     {{#if currentUser.subscriber}}
     <div class="controls">
-        <a id="premium_change_payment_link" href="#">{{i18n 'premium_bt.change_payment_link'}}</a>
+        <a id="premium_change_payment_link" href="#">{{i18n 'premium_bt.preferences_change_payment_link'}}</a>
     </div>
     <div class="controls" style="margin-top:10px;">
-        <a id="premium_unsubscribe_link" href="#">{{i18n 'premium_bt.unsubscribe_link'}}</a>
+        <a id="premium_unsubscribe_link" href="#">{{i18n 'premium_bt.preferences_unsubscribe_link'}}</a>
     </div>
     {{else}}
     <div class="controls">
-        <a id="premium_subscribe_link" href="#">{{i18n 'premium_bt.subscribe_link'}}</a>
+        <a id="premium_subscribe_link" href="#">{{i18n 'premium_bt.preferences_subscribe_link'}}</a>
     </div>
     {{/if}}
 </div>
 
 <div class="premium-form popup-menu" id="premium_subscribe_form">
     <form action="javascript:formSubmit();" id="subscribe" method="post">
-        <div class="price"></div>
+        <div class="form-text" id="subscribe_form_text">{{i18n 'premium_bt.form_subscribe_text'}}</div>
         <div id="paypal"></div>
 
-        <label for="cardholder-name" id="cardholder-name-label">Name (on card)</label>
+        <label for="cardholder-name" id="cardholder-name-label" class="premium-label">Name (on card)</label>
         <input type="text" name="cardholder-name" id="checkout-name" class="premium-input">
 
-        <label for="card-number" id="card-number-label">Card Number</label>
+        <label for="card-number" id="card-number-label" class="premium-label">Card Number</label>
         <div id="card-number" class="premium-input"></div>
 
-        <label for="expiration-date" id="expiration-date-label">Expiration Date (MM/YY)</label>
+        <label for="expiration-date" id="expiration-date-label" class="premium-label">Expiration Date (MM/YY)</label>
         <div id="expiration-date" class="premium-input"></div>
 
-        <label for="cvv" id="cvv-label">CVV</label>
+        <label for="cvv" id="cvv-label" class="premium-label">CVV</label>
         <div id="cvv" class="premium-input"></div>
 
         <input name="authenticity_token" type="hidden" value="{{ csrfToken }}"/>
         <input name="payment_method_nonce" type="hidden" value=""/>
         <input name="subscribe_or_update" type="hidden" value="subscribe"/>
         <div class="submit-wrapper">
-            <input type="submit" id="subscribe_submit" class="submit-payment-button btn btn-primary save-user no-text" value="{{i18n 'premium_bt.subscribe_button'}}" />
+            <input type="submit" id="subscribe_submit" class="submit-payment-button btn btn-primary save-user no-text" value="{{i18n 'premium_bt.form_subscribe_button'}}" />
         </div>
     </form>
 </div>
 
 <div class="premium-form popup-menu" id="premium_unsubscribe_form">
     <form action="javascript:unsubscribe();" id="unsubscribe" method="post">
+        <div class="form-text" id="unsubscribe_form_text">{{i18n 'premium_bt.form_unsubscribe_text'}}</div>
         <div class="submit-wrapper">
-            <input type="submit" class="submit-payment-button btn btn-primary save-user no-text" value="{{i18n 'premium_bt.unsubscribe_button'}}" />
+            <input type="submit" class="submit-payment-button btn btn-primary save-user no-text" value="{{i18n 'premium_bt.form_unsubscribe_button'}}" />
         </div>
     </form>
 
@@ -54,13 +55,15 @@
 <script>
 $("#premium_subscribe_link").click(function(e){
     e.preventDefault();
-    $("#subscribe_submit").val("{{i18n 'premium_bt.subscribe_button'}}");
+    $("#subscribe_form_text").text("{{i18n 'premium_bt.form_subscribe_text'}}");
+    $("#subscribe_submit").val("{{i18n 'premium_bt.form_subscribe_button'}}");
     $("#premium_subscribe_form").show();
     $('input[name="subscribe_or_update"]').val("subscribe");
 });
 $("#premium_change_payment_link").click(function(e){
     e.preventDefault();
-    $("#subscribe_submit").val("{{i18n 'premium_bt.change_payment_button'}}");
+    $("#subscribe_form_text").text("{{i18n 'premium_bt.form_change_payment_text'}}");
+    $("#subscribe_submit").val("{{i18n 'premium_bt.form_change_payment_button'}}");
     $("#premium_subscribe_form").show();
     $('input[name="subscribe_or_update"]').val("update");
 });
@@ -184,11 +187,9 @@ emailCheck();
 function emailCheck(){
     var emailInterval = setInterval(function(){
         if ($('#bt-pp-email').is(':visible')) {
-            $('#checkout-email').val($('#bt-pp-email').html());
-            $('#card-number-label').hide();
-            $('#card-number').hide();
-            $('#expiration-date-label').hide();
-            $('#expiration-date').hide();
+            $('.premium-label').hide();
+            $('.premium-input').hide();
+            $("#premium_subscribe_form").addClass("paypal-payment");
             clearInterval(emailInterval);
             paypalCheck();
         }
@@ -197,10 +198,9 @@ function emailCheck(){
 function paypalCheck(){
     var paypalInterval = setInterval(function(){
         if ($('#bt-pp-email').is(':hidden')) {
-            $('#card-number-label').show();
-            $('#card-number').show();
-            $('#expiration-date-label').show();
-            $('#expiration-date').show();
+            $('.premium-label').show();
+            $('.premium-input').show();
+            $("#premium_subscribe_form").removeClass("paypal-payment");
             clearInterval(paypalInterval);
             emailCheck();
         }

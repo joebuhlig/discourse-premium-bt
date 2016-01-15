@@ -9,7 +9,7 @@ en:
     premium_bt_plan_id: 'What is the name of the plan in Braintree?'
     premium_bt_affiliate: 'Turn on the affiliate program?'
     premium_bt_plan_discount: 'What is the name of the plan discount in Braintree?'
-  premium_bt:
+  premium_bt_messages:
     pm_subscribe_title: 'Welcome to Premium!'
     pm_subscribe_text: |
         ### New Group Access
@@ -29,9 +29,19 @@ en:
     pm_warning_title: 'Premium Expiration Warning'
     pm_warning_text: |
         Don't miss out! This could be great!
+
     pm_free_month_title: 'Free Month of Premium!'
     pm_free_month_text: |
         Someone just signed up using your affiliate link! To say thank you, we're granting you a free month of premium. Enjoy!
+
     pm_expired_title: 'Premium Expiration'
     pm_expired_text: |
-        Looks like your free month of premium has expired.
+        Looks like your premium subscription has expired.
+
+    pm_canceled_title: 'Premium Cancellation'
+    pm_canceled_text: |
+        Your subscription was cancelled. This may be due to an invalid payment method or an expired credit card. Please visit the Premium settings to re-subscribe.
+
+    pm_overdue_title: 'Payment Overdue'
+    pm_overdue_text: |
+        Your Premium payment is overdue, so we've removed your premium access. Please visit the Premium settings to re-subscribe.

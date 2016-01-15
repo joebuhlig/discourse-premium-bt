@@ -14,17 +14,28 @@ module DiscoursePremiumBt
 			token = create_payment_token(current_user.id, params[:payment_method_nonce])
 			plan_id = SiteSetting.premium_bt_plan_id
 
-			subscription = Braintree::Subscription.create(
-				:payment_method_token => token,
-				:plan_id => plan_id
-			)
+			if current_user.premium_group_check and !current_user.premium_subscriber
+
+				first_billing_date = current_user.custom_fields["premium_exp_date"] + 1.day
+
+				subscription = Braintree::Subscription.create(
+					:payment_method_token => token,
+					:plan_id => plan_id,
+					:first_billing_date => first_billing_date
+				)
+			else
+				subscription = Braintree::Subscription.create(
+					:payment_method_token => token,
+					:plan_id => plan_id
+				)
+			end
 
 			if subscription.success?
 				current_user.custom_fields["subscription_id"] = subscription.subscription.id
 				group = Group.find_by_name(SiteSetting.premium_bt_group_name)
 				current_user.premium_group_grant
-				title = I18n.t("premium_bt.pm_subscribe_title")
-				raw = I18n.t("premium_bt.pm_subscribe_text")
+				title = I18n.t("premium_bt_messages.pm_subscribe_title")
+				raw = I18n.t("premium_bt_messages.pm_subscribe_text")
 				current_user.custom_fields["premium_exp_date"] = nil
 				current_user.custom_fields["premium_exp_pm_sent"] = nil
 				current_user.save
@@ -44,8 +55,8 @@ module DiscoursePremiumBt
 				:payment_method_token => token
 			)
 			if subscription.success?
-				title = I18n.t("premium_bt.pm_change_payment_title")
-				raw = I18n.t("premium_bt.pm_change_payment_text")
+				title = I18n.t("premium_bt_messages.pm_change_payment_title")
+				raw = I18n.t("premium_bt_messages.pm_change_payment_text")
 				current_user.send_premium_pm(title, raw)
 	            render json: success_json
 			else
@@ -59,8 +70,8 @@ module DiscoursePremiumBt
 			if subscription.success?
 				current_user.custom_fields["subscription_id"] = nil
 				current_user.premium_group_revoke
-				title = I18n.t("premium_bt.pm_unsubscribe_title")
-				raw = I18n.t("premium_bt.pm_unsubscribe_text")
+				title = I18n.t("premium_bt_messages.pm_unsubscribe_title")
+				raw = I18n.t("premium_bt_messages.pm_unsubscribe_text")
 				current_user.send_premium_pm(title, raw)
 				render json: success_json
 			else

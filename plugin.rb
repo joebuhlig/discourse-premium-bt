@@ -80,20 +80,27 @@ after_initialize do
 						)
 					end
 					if subscription.success?
-						title = I18n.t("premium_bt.pm_free_month_title")
-						raw = I18n.t("premium_bt.pm_free_month_text")
+						title = I18n.t("premium_bt_messages.pm_free_month_title")
+						raw = I18n.t("premium_bt_messages.pm_free_month_text")
 						send_premium_pm(title, raw)
 					end
 				# If no current subscription exists
 				else
-					premium_group_grant
-					expiration = Time.now + 1.month
-					self.custom_fields["premium_exp_date"] = expiration
-					self.custom_fields["premium_exp_pm_sent"] = false
-					self.save
-					title = I18n.t("premium_bt.pm_free_month_title")
-					raw = I18n.t("premium_bt.pm_free_month_text")
-					send_premium_pm(title, raw)
+					if !(premium_for_life)
+						if self.custom_fields["premium_exp_date"].nil?
+							expiration = Time.now + 1.month
+						else
+							expiration = self.custom_fields["premium_exp_date"] + 1.month
+						end
+
+						premium_group_grant
+						self.custom_fields["premium_exp_date"] = expiration
+						self.custom_fields["premium_exp_pm_sent"] = false
+						self.save
+						title = I18n.t("premium_bt_messages.pm_free_month_title")
+						raw = I18n.t("premium_bt_messages.pm_free_month_text")
+						send_premium_pm(title, raw)
+					end
 				end
 			end
 		end
@@ -127,6 +134,14 @@ after_initialize do
 
 		def premium_subscriber
 			if !self.custom_fields['subscription_id'].nil?
+				return true
+			else
+				return false
+			end
+		end
+
+		def premium_for_life
+			if premium_group_check and !premium_subscriber and self.custom_fields["premium_exp_date"].nil?
 				return true
 			else
 				return false

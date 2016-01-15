@@ -7,10 +7,11 @@ module DiscoursePremiumBt
 			group.users.each do |user|
 				if user.custom_fields['premium_exp_date'] < Time.now + 40.days
 					user.premium_group_revoke
-					title = I18n.t("premium_bt.pm_expired_title")
-					raw = I18n.t("premium_bt.pm_expired_text")
+					title = I18n.t("premium_bt_messages.pm_expired_title")
+					raw = I18n.t("premium_bt_messages.pm_expired_text")
 					user.send_premium_pm(title, raw)
-					user.custom_fields['premium_exp_pm_sent'] = true
+					user.custom_fields['premium_exp_date'] = nil
+					user.custom_fields['premium_exp_pm_sent'] = nil
 					user.save
 				end
 			end
