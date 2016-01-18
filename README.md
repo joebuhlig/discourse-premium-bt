@@ -13,27 +13,27 @@ To use it, you'll need an account with [Braintree](https://www.braintreepayments
 1. Install the plugin per the [directions on meta](https://meta.discourse.org/t/install-a-plugin/19157).
 2. Collect your API Keys from your Braintree account and enter them into the plugin settings in Discourse.
 
-<img src="/images/braintree-api-keys.png" width="200"> 
+    <img src="/images/braintree-api-keys.png" width="400"> 
 
 3. In Braintree, create a new Plan. This is where you set the price and billing intervals.
 
-<img src="/images/braintree-plan.png" width="200">
+    <img src="/images/braintree-plan.png" width="400">
 
 4. Add the name of the plan to the plugin settings.
 
-<img src="/images/premium-plan-setting.png.png" width="200">
+    <img src="/images/premium-plan-setting.png.png" width="400">
 
 5. Create a new group to put behind the paywall. You can name it whatever you like.
 
-<img src="/images/premium-group.png" width="200">
+    <img src="/images/premium-group.png" width="400">
 
 6. Add the group name to the plugin settings.
 
-<img src="/images/premium-group-setting.png" width="200">
+    <img src="/images/premium-group-setting.png" width="400">
 
 7. It's a good idea to create a new topic on your site explaining all the details of your premium section. After you've created this topic, add the link to it in the settings. The "more info" link in the user settings will be directed to this topic.
 
-<img src="/images/premium-details-setting.png" width="200">
+    <img src="/images/premium-details-setting.png" width="400">
 
 ### Optional
 
@@ -41,12 +41,12 @@ The plugin has an affiliate portion built in. You'll need to enable it separatel
 
 1. Every good affiliate program rewards the user in some way this program grants a discount to the subscriber when a new user signs up for the community. You need to set up the discount in Braintree.
 
-<img src="/images/braintree-discount.png" width="200">
+    <img src="/images/braintree-discount.png" width="400">
 
 2. Enter the name of the discount in the plugin settings.
 
-<img src="/images/braintree-discount-setting.png" width="200">
+    <img src="/images/braintree-discount-setting.png" width="400">
 
 3. Create a new topic on your site explaining the details on the affiliate program and enter the link to the topic in the settings.
 
-<img src="/images/affiliate-details-setting.png" width="200">
+    <img src="/images/affiliate-details-setting.png" width="400">
