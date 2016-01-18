@@ -6,4 +6,9 @@
 		<a href="/users/{{currentUser.username}}/preferences#premium">{{i18n 'premium_bt.site_menu_link_nonsubscriber'}}</a>
 	{{/if}}
 	</li>
+	{{#if this.siteSettings.premium_bt_affiliate}}
+	<li class="premium-link">
+		<a href="/users/{{currentUser.username}}/preferences#affiliate">{{i18n 'premium_bt.site_menu_link_affiliate'}}</a>
+	</li>
+	{{/if}}
 {{/if}}

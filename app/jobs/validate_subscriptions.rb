@@ -8,6 +8,7 @@ module DiscoursePremiumBt
 				# If they are a paying customer
 				if user.subscriber
 					subscription = Braintree::Subscription.find(user.custom_fields["subscription_id"])
+		byebug
 					status = subscription.status
 					if status = Braintree::Subscription::Status::Active
 						user.custom_fields["premium_exp_pm_sent"] = nil

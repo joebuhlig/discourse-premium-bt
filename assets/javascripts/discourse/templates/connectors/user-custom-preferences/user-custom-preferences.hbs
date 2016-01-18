@@ -12,7 +12,38 @@
         <a id="premium_subscribe_link" href="#">{{i18n 'premium_bt.preferences_subscribe_link'}}</a>
     </div>
     {{/if}}
+    <div class="controls">
+        <p>{{{i18n 'premium_bt.info_link' link=this.siteSettings.premium_bt_premium_info}}}</p>
+    </div>
 </div>
+{{#if this.siteSettings.premium_bt_affiliate}}
+    <div class="control-group" id="affiliate">
+        <label class="control-label">{{i18n 'premium_bt.affiliate_title'}}</label>
+        <div class="controls">
+            <p>{{{i18n 'premium_bt.affiliate_text' id=currentUser.id}}}</p>
+            <p>{{{i18n 'premium_bt.affiliate_info_link' link=this.siteSettings.premium_bt_affiliate_info}}}</p>
+            <p>{{i18n 'premium_bt.affiliate_examples' }}</p>
+            <p>{{hostname}}?ref={{currentUser.id}}</p>
+            <p>{{hostname}}{{currentUser.path}}?ref={{currentUser.id}}</p>
+            <p>{{hostname}}/about?ref={{currentUser.id}}</p>
+        </div>
+        <div class="controls">
+            <p>{{i18n 'premium_bt.affiliate_share_now_text'}}</p>
+            <div class="social-link">
+                {{{affiliateTwitter}}}
+            </div>
+            <div class="social-link">
+                {{{affiliateFacebook}}}
+            </div>
+            <div class="social-link">
+                {{{affiliateGooglePlus}}}
+            </div>
+            <div class="social-link">
+                {{{affiliateEmail}}}
+            </div>
+        </div>
+    </div>
+{{/if}}
 
 <div class="premium-form popup-menu" id="premium_subscribe_form">
     <form action="javascript:formSubmit();" id="subscribe" method="post">

@@ -7,8 +7,10 @@ en:
     premium_bt_private_key: 'Enter the private key from Braintree'
     premium_bt_group_name: 'What group should be behind the paywall?'
     premium_bt_plan_id: 'What is the name of the plan in Braintree?'
+    premium_bt_premium_info: 'Link to the topic that explains the Premium program'
     premium_bt_affiliate: 'Turn on the affiliate program?'
     premium_bt_plan_discount: 'What is the name of the plan discount in Braintree?'
+    premium_bt_affiliate_info: 'Link to the topic that explains the affiliate program'
   premium_bt_messages:
     pm_subscribe_title: 'Welcome to Premium!'
     pm_subscribe_text: |
@@ -20,7 +22,7 @@ en:
 
     pm_unsubscribe_title: 'Goodbye'
     pm_unsubscribe_text: |
-        We're sorry to see you go.
+        We're sorry to see you go. If you didn't mean to do this, please visit the Premium settings to re-subscribe.
 
     pm_change_payment_title: 'Payment method updated'
     pm_change_payment_text: |
@@ -28,7 +30,7 @@ en:
 
     pm_warning_title: 'Premium Expiration Warning'
     pm_warning_text: |
-        Don't miss out! This could be great!
+        Your premium access expires in three days. Subscribe now to maintain your access to premium content.
 
     pm_free_month_title: 'Free Month of Premium!'
     pm_free_month_text: |
@@ -36,7 +38,7 @@ en:
 
     pm_expired_title: 'Premium Expiration'
     pm_expired_text: |
-        Looks like your premium subscription has expired.
+        Looks like your premium subscription has expired. This is likely an issue with your payment method. Please visit the Premium settings to re-subscribe.
 
     pm_canceled_title: 'Premium Cancellation'
     pm_canceled_text: |

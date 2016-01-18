@@ -20,9 +20,15 @@ plugins:
   premium_bt_plan_id:
     default: ""
     client: true
+  premium_bt_premium_info:
+    default: ""
+    client: true
   premium_bt_affiliate:
     default: false
     client: true
   premium_bt_plan_discount:
+    default: ""
+    client: true
+  premium_bt_affiliate_info:
     default: ""
     client: true

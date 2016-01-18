@@ -7,9 +7,21 @@ en:
   js:
     premium_bt:
       title: "Premium"
+      info_link: |
+        You can <a href="{{link}}">learn more about the Premium program here</a>.
+      affiliate_title: "Affiliate Program"
+      affiliate_text: |
+        Get a free month of Premium when someone signs up using your link. Just append <strong>?ref={{id}}</strong> to the end of any URL on the site when you share the link. 
+      affiliate_info_link: | 
+        You can <a href="{{link}}">learn more about it here</a>.
+
+      affiliate_examples: "Here are a few examples:"
+      affiliate_share_text: "Check out this cool site I've been using lately, {{site_name}}!"
+      affiliate_share_now_text: "To make it easy, use the icons below to share your custom link."
       site_menu_link_subscriber: "Premium Settings"
       site_menu_link_nonsubscriber: "Go Premium"
-      preferences_subscribe_link: "Subscribe"
+      site_menu_link_affiliate: "Affiliate Program"
+      preferences_subscribe_link: "Subscribe ($5/month)"
       preferences_change_payment_link: "Update payment method"
       preferences_unsubscribe_link: "Cancel subscription"
       go_premium_bar_text: "Want in on the private categories?"
