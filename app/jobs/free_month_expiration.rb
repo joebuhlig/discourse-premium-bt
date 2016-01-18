@@ -5,7 +5,7 @@ module DiscoursePremiumBt
 		def execute(args)
 			group = Group.find_by_name(SiteSetting.premium_bt_group_name)
 			group.users.each do |user|
-				if user.custom_fields['premium_exp_date'] < Time.now + 40.days
+				if user.custom_fields['premium_exp_date']<Time.now
 					user.premium_group_revoke
 					title = I18n.t("premium_bt_messages.pm_expired_title")
 					raw = I18n.t("premium_bt_messages.pm_expired_text")

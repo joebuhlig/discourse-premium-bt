@@ -1,6 +1,6 @@
 module DiscoursePremiumBt
 	class ValidateSubscriptions < ::Jobs::Scheduled
-		every 1.minute
+		every 6.hours
 
 		def execute(args)
 			users = User.all

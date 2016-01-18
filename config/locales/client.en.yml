@@ -8,12 +8,12 @@ en:
     premium_bt:
       title: "Premium"
       info_link: |
-        You can <a href="{{link}}">learn more about the Premium program here</a>.
+        <a href="{{link}}">Learn more about the Premium program here</a>.
       affiliate_title: "Affiliate Program"
       affiliate_text: |
-        Get a free month of Premium when someone signs up using your link. Just append <strong>?ref={{id}}</strong> to the end of any URL on the site when you share the link. 
+        Get a free month of Premium every time someone signs up using your link. Create your custom link by appending <strong>?ref={{id}}</strong> to the end of any URL on the site when you share the link. 
       affiliate_info_link: | 
-        You can <a href="{{link}}">learn more about it here</a>.
+        <a href="{{link}}">Learn more about the Affiliate program here</a>.
 
       affiliate_examples: "Here are a few examples:"
       affiliate_share_text: "Check out this cool site I've been using lately, {{site_name}}!"
@@ -26,10 +26,10 @@ en:
       preferences_unsubscribe_link: "Cancel subscription"
       go_premium_bar_text: "Want in on the private categories?"
       go_premium_bar_link: "Go Premium"
-      form_subscribe_text: "For only $5 a month you can access the private categories!"
+      form_subscribe_text: "Access the private categories for only $5 a month!"
       form_subscribe_button: "Subscribe"
-      form_unsubscribe_text: "Are you sure you want to do this?"
+      form_unsubscribe_text: "Are you sure you want to cancel your subscription?"
       form_unsubscribe_button: "Unsubscribe"
       form_change_payment_text: "Please enter your new payment information."
       form_change_payment_button: "Update Payment Method"
-      processing_text: "Please wait while we process this."
+      processing_text: "Please wait..."
