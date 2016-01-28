@@ -17,11 +17,11 @@ load File.expand_path('../lib/discourse_premium_bt/engine.rb', __FILE__)
 
 after_initialize do
 
-	load File.expand_path("../app/jobs/expiration_warning.rb", __FILE__)
-	load File.expand_path("../app/jobs/free_month_expiration.rb", __FILE__)
-	load File.expand_path("../app/jobs/validate_subscriptions.rb", __FILE__)
-
 	if SiteSetting.premium_bt_enabled
+		load File.expand_path("../app/jobs/expiration_warning.rb", __FILE__)
+		load File.expand_path("../app/jobs/free_month_expiration.rb", __FILE__)
+		load File.expand_path("../app/jobs/validate_subscriptions.rb", __FILE__)
+
 		Braintree::Configuration.environment = eval(SiteSetting.premium_bt_environment)
 		Braintree::Configuration.merchant_id = SiteSetting.premium_bt_merchant_id
 		Braintree::Configuration.public_key = SiteSetting.premium_bt_public_key

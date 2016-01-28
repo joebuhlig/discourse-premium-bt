@@ -1,3 +1,4 @@
+{{#if this.siteSettings.premium_bt_enabled}}
 <div class="control-group" id="premium" style="margin-top:30px;">
     <label class="control-label">{{i18n 'premium_bt.title'}}</label>
     {{#if currentUser.subscriber}}
@@ -238,3 +239,4 @@ function paypalCheck(){
     })
 }
 </script>
+{{/if}}

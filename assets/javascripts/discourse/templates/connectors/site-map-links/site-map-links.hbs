@@ -1,3 +1,4 @@
+{{#if this.siteSettings.premium_bt_enabled}}
 {{#if currentUser}}
 	<li class="premium-link">
 	{{#if currentUser.premium}}
@@ -11,4 +12,5 @@
 		<a href="/users/{{currentUser.username}}/preferences#affiliate">{{i18n 'premium_bt.site_menu_link_affiliate'}}</a>
 	</li>
 	{{/if}}
+{{/if}}
 {{/if}}
