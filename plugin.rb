@@ -21,10 +21,12 @@ after_initialize do
 	load File.expand_path("../app/jobs/free_month_expiration.rb", __FILE__)
 	load File.expand_path("../app/jobs/validate_subscriptions.rb", __FILE__)
 
-	Braintree::Configuration.environment = eval(SiteSetting.premium_bt_environment)
-	Braintree::Configuration.merchant_id = SiteSetting.premium_bt_merchant_id
-	Braintree::Configuration.public_key = SiteSetting.premium_bt_public_key
-	Braintree::Configuration.private_key = SiteSetting.premium_bt_private_key
+	if SiteSetting.premium_bt_enabled
+		Braintree::Configuration.environment = eval(SiteSetting.premium_bt_environment)
+		Braintree::Configuration.merchant_id = SiteSetting.premium_bt_merchant_id
+		Braintree::Configuration.public_key = SiteSetting.premium_bt_public_key
+		Braintree::Configuration.private_key = SiteSetting.premium_bt_private_key
+	end
 
 	require_dependency "application_controller"
 	class ::ApplicationController
