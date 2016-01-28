@@ -1,6 +1,6 @@
 plugins:
   premium_bt_enabled:
-    default: false
+    default: true
     client: true
   premium_bt_environment:
     default: ""
