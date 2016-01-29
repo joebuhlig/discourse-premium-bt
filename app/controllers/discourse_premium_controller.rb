@@ -5,11 +5,11 @@ module DiscoursePremiumBt
 		requires_plugin 'discourse-premium-bt'
 		
 		def client_token
+			DiscoursePremiumBt.validate
 	        render :text => Braintree::ClientToken.generate
 		end
 
 		def subscribe
-
 			customer = get_customer(current_user.id, current_user.email)
 			token = create_payment_token(current_user.id, params[:payment_method_nonce])
 			plan_id = SiteSetting.premium_bt_plan_id
@@ -65,6 +65,7 @@ module DiscoursePremiumBt
 		end
 
 		def cancel
+			DiscoursePremiumBt.validate
 			subscription = Braintree::Subscription.cancel(current_user.custom_fields["subscription_id"])
 
 			if subscription.success?
@@ -80,6 +81,7 @@ module DiscoursePremiumBt
 		end
 
 		def get_customer(id, email)
+			DiscoursePremiumBt.validate
 			
 			begin
 				customer = Braintree::Customer.find(id)

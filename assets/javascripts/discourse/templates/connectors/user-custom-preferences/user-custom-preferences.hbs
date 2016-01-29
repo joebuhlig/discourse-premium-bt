@@ -103,7 +103,7 @@ $("#premium_unsubscribe_link").click(function(e){
     e.preventDefault();
     $("#premium_unsubscribe_form").show();
 });
-$('.btn-primary').click(function(e){
+$('.premium-form .btn-primary').click(function(e){
     $('#status_alert_text').text("{{i18n 'premium_bt.processing_text'}}");
     $('.status-alert').show();
 })
@@ -180,7 +180,10 @@ function getClientToken(){
                     if (response.success == "OK"){
                         location.reload();
                     }
-                });
+                }).fail(function(response){
+                    console.log(response.responseJSON);
+                    $('#status_alert_text').text(response.responseJSON.errors[0]);
+                })
             },
             onError: function (payload) {
                 $('#status_alert_text').text(payload.message);

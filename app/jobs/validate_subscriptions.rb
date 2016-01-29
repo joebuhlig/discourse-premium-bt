@@ -7,9 +7,11 @@ module DiscoursePremiumBt
 			users.each do |user|
 				# If they are a paying customer
 				if user.premium_subscriber
+					DiscoursePremiumBt.validate
 					subscription = Braintree::Subscription.find(user.custom_fields["subscription_id"])
 					status = subscription.status
 					if status == Braintree::Subscription::Status::Active
+						user.premium_group_grant
 						user.custom_fields["premium_exp_pm_sent"] = nil
 						user.custom_fields["premium_exp_date"] = nil
 						user.save

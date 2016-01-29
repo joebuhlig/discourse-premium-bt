@@ -13,20 +13,14 @@ enabled_site_setting :premium_bt_enabled
 gem 'braintree', '2.48.1'
 
 # load the engine
+load File.expand_path('../lib/discourse_premium_bt.rb', __FILE__)
 load File.expand_path('../lib/discourse_premium_bt/engine.rb', __FILE__)
 
 after_initialize do
 
-	if SiteSetting.premium_bt_enabled
-		load File.expand_path("../app/jobs/expiration_warning.rb", __FILE__)
-		load File.expand_path("../app/jobs/free_month_expiration.rb", __FILE__)
-		load File.expand_path("../app/jobs/validate_subscriptions.rb", __FILE__)
-
-		Braintree::Configuration.environment = eval(SiteSetting.premium_bt_environment)
-		Braintree::Configuration.merchant_id = SiteSetting.premium_bt_merchant_id
-		Braintree::Configuration.public_key = SiteSetting.premium_bt_public_key
-		Braintree::Configuration.private_key = SiteSetting.premium_bt_private_key
-	end
+	load File.expand_path("../app/jobs/expiration_warning.rb", __FILE__)
+	load File.expand_path("../app/jobs/free_month_expiration.rb", __FILE__)
+	load File.expand_path("../app/jobs/validate_subscriptions.rb", __FILE__)
 
 	require_dependency "application_controller"
 	class ::ApplicationController
@@ -47,6 +41,7 @@ after_initialize do
 			if SiteSetting.premium_bt_affiliate
 				# If they have a current subscription
 				if !self.custom_fields['subscription_id'].nil?
+					DiscoursePremiumBt.validate
 					subscription = Braintree::Subscription.find(self.custom_fields["subscription_id"])
 					discounts = subscription.discounts
 					number_of_billing_cycles = 1
@@ -167,7 +162,7 @@ after_initialize do
 		after_filter :referral_check, only: [:perform_account_activation]
 
 		def referral_check
-			if SiteSetting.premium_bt_affiliate and cookies[:discourse_prem_aff] and !User.find_by_id(cookies[:discourse_prem_aff]).nil?
+			if SiteSetting.premium_bt_enabled and SiteSetting.premium_bt_affiliate and cookies[:discourse_prem_aff] and !User.find_by_id(cookies[:discourse_prem_aff]).nil?
 				user = User.find_by_id(cookies[:discourse_prem_aff])
 				user.grant_free_month
 			end
