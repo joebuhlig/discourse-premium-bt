@@ -1,3 +1,3 @@
 Ember.Handlebars.registerBoundHelper("hostname", function() {
-  return document.location.host;
+  return Discourse.URL.origin();
 });
